@@ -10,6 +10,7 @@ form_class = uic.loadUiType('./qt_mp3_player.ui')[0]
 class ExampleApp(QWidget, form_class):
     def __init__(self):
         super().__init__()
+        self.file_path = ('', '')
         self.setupUi(self)
 
         self.playing_flag = False
@@ -35,6 +36,13 @@ class ExampleApp(QWidget, form_class):
 
         # 음악 정보 표시 기능 연결
 
+    # File =============================
+    def open_files_slot(self):
+        self.file_path = QFileDialog.getOpenFileNames(self, 'Open Audio Files', '',
+                                            'MP3 (*.mp3);;WAV (*.wav);;WMA (*.wma);;AAC (*.aac);;All Files(*.*)')
+        self.playlist = self.file_path
+        self.current_index = 0
+
     # Play =============================
     # 재생/일시정지 버튼 토글
     def play_or_pause_slot(self):
@@ -45,11 +53,11 @@ class ExampleApp(QWidget, form_class):
 
     # 재생
     def playing_music_slot(self):
-        pass
+        self.player.play()
 
     # 일시정지
     def pause_music_slot(self):
-        pass
+        self.player.pause()
 
     # 이전 트랙 재생 | 되돌아가기
     def previous_track_slot(self):
