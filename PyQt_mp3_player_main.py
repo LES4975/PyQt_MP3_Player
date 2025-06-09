@@ -3,10 +3,13 @@ import os
 import sys
 import random
 
-from PyQt5.QtCore import QStringListModel, QFileInfo, QUrl, QModelIndex
+from PyQt5.QtCore import QStringListModel, QFileInfo, QUrl, QModelIndex, QEvent
+from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import *
 from PyQt5.QtMultimedia import *
 from PyQt5 import uic
+
+from Qt_style import create_default_shadow
 
 form_class = uic.loadUiType('./qt_mp3_player.ui')[0]
 
@@ -29,14 +32,14 @@ class ExampleApp(QMainWindow, form_class):
         self.player.setVolume(50)   # 초기 볼륨
         self.setWindowTitle("MP3 Player")
 
-        # File 메뉴 기능 연결
+        # File 메뉴 기능 연결 ---------------------------------
         self.actionOpen_File.triggered.connect(self.open_file_slot)
         self.actionOpen_Folder.triggered.connect(self.open_folder_slot)
         self.actionAdd_File.triggered.connect(self.add_files_slot)
         self.actionRemove.triggered.connect(self.remove_current_track_slot)
         self.actionRemove_All.triggered.connect(self.remove_all_slot)
 
-        # 재생 기능 연결
+        # 재생 기능 연결 ----------------------------------------
         self.actionPlay.triggered.connect(self.play_or_pause_slot)
         self.actionPause.triggered.connect(self.play_or_pause_slot)
         self.actionPrevious_Track.triggered.connect(self.previous_track_slot)
@@ -69,7 +72,7 @@ class ExampleApp(QMainWindow, form_class):
         self.player.durationChanged.connect(self.update_duration)
         self.play_bar.sliderMoved.connect(self.seek)
 
-        # 플레이리스트 관리 기능 연결
+        # 플레이리스트 관리 기능 연결 ----------------------------
         self.btn_open.clicked.connect(self.open_folder_slot)
         self.listView.doubleClicked.connect(self.play_selected)
         self.btn_add.clicked.connect(self.add_files_slot)
@@ -80,8 +83,16 @@ class ExampleApp(QMainWindow, form_class):
         # 프로그램 정보
         self.actionAbout.triggered.connect(self.about_slot)
 
+        # 라벨 내용, 스타일 설정 ----------------------------------
+        #라벨 설정
         self.lbl_music_name.setText("Choose your music")
         self.lbl_volume.setText(f"Volume: {volume}%")  # 볼륨을 표시
+
+        # 마우스를 올리면 뿌옇게 빛나요~
+        for btn in [self.btn_shuffle, self.btn_loop]:
+            btn.installEventFilter(self)
+            btn.toggled.connect(lambda _, b=btn: self.update_button_shadow(b))
+
 
     # File =============================
     # 파일 선택해서 열기
@@ -419,6 +430,22 @@ class ExampleApp(QMainWindow, form_class):
         QMessageBox.about(self, 'MP3 Player made with PyQt',
                               '만든이: 이은서\n\r버전 정보: 1.0.0')
 
+    # 스타일 ---------------------------------
+    def eventFilter(self, obj, event):
+        color = QColor(252, 252, 252)
+
+        if event.type() == QEvent.HoverEnter:
+            if obj.isChecked():
+                color = QColor(20, 255, 236)
+            obj.setGraphicsEffect(create_default_shadow((0, 0), 20, color))
+        elif event.type() == QEvent.HoverLeave:
+            obj.setGraphicsEffect(None)
+        return super().eventFilter(obj, event)
+
+    def update_button_shadow(self, btn):
+        if btn.underMouse():
+            color = QColor(20, 255, 236) if btn.isChecked() else QColor(252, 252, 252)
+            btn.setGraphicsEffect(create_default_shadow((0, 0), 20, color))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
