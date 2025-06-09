@@ -55,16 +55,6 @@ class ExampleApp(QMainWindow, form_class):
         self.btn_loop.clicked.connect(self.toggle_loop_mode)
         self.actionLoop_On_Off.triggered.connect(self.toggle_loop_mode)
 
-
-        # self.actionShuffle_On_Off.setCheckable(True)
-        # self.actionLoop_On_Off.setCheckable(True)
-        # self.actionShuffle_On_Off.toggled.connect(self.btn_shuffle.setChecked)
-        # self.actionLoop_On_Off.toggled.connect(self.btn_loop.setChecked)
-        # self.actionShuffle_On_Off.toggled.connect(self.toggle_shuffle_slot)
-        # self.btn_shuffle.toggled.connect(self.toggle_shuffle_slot)
-        # self.actionLoop_On_Off.toggled.connect(self.toggle_loop_slot)
-        # self.btn_loop.toggled.connect(self.toggle_loop_slot)
-
         self.player.stateChanged.connect(self.sync_play_button)
 
         # 트랙이 끝났을 때 자동으로 다음 곡 재생
