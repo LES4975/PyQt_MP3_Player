@@ -661,7 +661,7 @@ background-color:transparent;
             <x>0</x>
             <y>0</y>
             <width>324</width>
-            <height>577</height>
+            <height>597</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -744,7 +744,6 @@ background-color:transparent;
    <addaction name="menuPlay"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen_Folder">
    <property name="text">
     <string>Open Folder</string>
