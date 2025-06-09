@@ -8,8 +8,6 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtMultimedia import *
 from PyQt5 import uic
 
-from qt_material import apply_stylesheet
-
 form_class = uic.loadUiType('./qt_mp3_player.ui')[0]
 
 class ExampleApp(QMainWindow, form_class):
@@ -31,9 +29,6 @@ class ExampleApp(QMainWindow, form_class):
         self.player = QMediaPlayer()
         self.player.setVolume(50)   # 초기 볼륨
         self.setWindowTitle("MP3 Player")
-
-
-        apply_stylesheet(self, theme='dark_teal.xml')
 
         # File 메뉴 기능 연결
         self.actionOpen_File.triggered.connect(self.open_file_slot)
