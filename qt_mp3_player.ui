@@ -28,8 +28,105 @@
    </property>
    <property name="styleSheet">
     <string notr="true">QWidget {
-    background-color: #332D56;
-}</string>
+    background-color: #212121;
+    color: #FFFFFF;
+    font-family: 'Segoe UI';
+    font-size: 13px;
+}
+
+QPushButton {
+    background-color: #0D7377;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+}
+
+QPushButton:hover {
+    background-color: #14FFEC;
+    color: #000000;
+}
+
+QPushButton:pressed {
+    background-color: #0B5B5D;
+}
+
+QSlider::groove:horizontal {
+    border: 1px solid #444;
+    height: 6px;
+    background: #323232;
+    border-radius: 3px;
+}
+
+QSlider::handle:horizontal {
+    background: #14FFEC;
+    border: 1px solid #0D7377;
+    width: 14px;
+    margin: -5px 0;
+    border-radius: 7px;
+}
+
+QSlider::sub-page:horizontal {
+    background: #0D7377;
+    border-radius: 3px;
+}
+
+QSlider::add-page:horizontal {
+    background: #555;
+    border-radius: 3px;
+}
+
+QListView {
+    background-color: #323232;
+    border: 1px solid #0D7377;
+    color: #FFFFFF;
+    selection-background-color: #14FFEC;
+    selection-color: #000000;
+}
+
+QLabel {
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+QMenuBar {
+    background-color: #212121;
+    color: #FFFFFF;
+}
+
+QMenuBar::item {
+    background-color: #212121;
+    padding: 4px 10px;
+}
+
+QMenuBar::item:selected {
+    background-color: #14FFEC;
+    color: #000000;
+}
+
+QMenu {
+    background-color: #212121;
+    color: #FFFFFF;
+}
+
+QMenu::item:selected {
+    background-color: #14FFEC;
+    color: #000000;
+}
+
+QScrollBar:vertical {
+    background: #323232;
+    width: 10px;
+    margin: 0px;
+    border: none;
+}
+
+QScrollBar::handle:vertical {
+    background: #0D7377;
+    border-radius: 5px;
+    min-height: 20px;
+}
+</string>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout" stretch="6,4">
     <item>
@@ -107,10 +204,10 @@
           <widget class="QLabel" name="lbl_music_name">
            <property name="geometry">
             <rect>
-             <x>0</x>
-             <y>280</y>
-             <width>321</width>
-             <height>20</height>
+             <x>-10</x>
+             <y>270</y>
+             <width>371</width>
+             <height>71</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -118,6 +215,19 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>-1</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#lbl_music_name{
+							font-size: 20px;
+}</string>
            </property>
            <property name="text">
             <string>Name</string>
@@ -242,6 +352,11 @@
             <property name="cursor">
              <cursorShape>ArrowCursor</cursorShape>
             </property>
+            <property name="styleSheet">
+             <string notr="true">QFrame &gt; QPushButton{
+border-radius: 30px;
+}</string>
+            </property>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <property name="leftMargin">
               <number>30</number>
@@ -257,13 +372,19 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="styleSheet">
+                <string notr="true">#btn_shuffle{
+background-color:transparent;
+}
+</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>imgs/suffle_off.png</normaloff>
-                 <normalon>imgs/suffle_on.png</normalon>imgs/suffle_off.png</iconset>
+                 <normaloff>imgs/shuffle_off.png</normaloff>
+                 <normalon>imgs/shuffle_on.png</normalon>imgs/shuffle_off.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -335,7 +456,7 @@
              <item>
               <widget class="QPushButton" name="btn_next">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -363,6 +484,21 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="mouseTracking">
+                <bool>false</bool>
+               </property>
+               <property name="whatsThis">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">#btn_loop{
+background-color:transparent;
+}
+</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -376,6 +512,9 @@
                  <width>35</width>
                  <height>35</height>
                 </size>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -393,7 +532,7 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,5">
+         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,4">
           <property name="spacing">
            <number>10</number>
           </property>
@@ -437,6 +576,11 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox::{
+
+}</string>
+      </property>
       <property name="title">
        <string>Playlist</string>
       </property>
@@ -454,7 +598,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QToolButton" name="btn_open">
+           <widget class="QPushButton" name="btn_open">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -510,7 +654,7 @@
             <x>0</x>
             <y>0</y>
             <width>292</width>
-            <height>588</height>
+            <height>577</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
