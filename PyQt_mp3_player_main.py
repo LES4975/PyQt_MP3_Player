@@ -40,24 +40,32 @@ class ExampleApp(QMainWindow, form_class):
         self.actionRemove_All.triggered.connect(self.remove_all_slot)
 
         # 재생 기능 연결 ----------------------------------------
-        self.actionPlay.triggered.connect(self.play_or_pause_slot)
-        self.actionPause.triggered.connect(self.play_or_pause_slot)
-        self.actionPrevious_Track.triggered.connect(self.previous_track_slot)
-        self.actionNext_Track.triggered.connect(self.next_track_slot)
-        self.actionShuffle_On_Off.setCheckable(True)
-        self.actionShuffle_On_Off.toggled.connect(self.toggle_shuffle_slot)
-        self.actionLoop_On_Off.setCheckable(True)
-        self.actionLoop_On_Off.toggled.connect(self.toggle_loop_slot)
-
+        self.actionPlay.triggered.connect(self.player.play)
+        self.actionPause.triggered.connect(self.player.pause)
         self.btn_pnp.clicked.connect(self.play_or_pause_slot)
 
-        self.player.stateChanged.connect(self.sync_play_button)
-
+        self.actionPrevious_Track.triggered.connect(self.previous_track_slot)
+        self.actionNext_Track.triggered.connect(self.next_track_slot)
         self.btn_previous.clicked.connect(self.previous_track_slot)
         self.btn_next.clicked.connect(self.next_track_slot)
 
-        self.btn_shuffle.toggled.connect(self.toggle_shuffle_slot)
-        self.btn_loop.toggled.connect(self.toggle_loop_slot)
+        self.btn_shuffle.clicked.connect(self.toggle_shuffle_mode)
+        self.actionShuffle_On_Off.triggered.connect(self.toggle_shuffle_mode)
+
+        self.btn_loop.clicked.connect(self.toggle_loop_mode)
+        self.actionLoop_On_Off.triggered.connect(self.toggle_loop_mode)
+
+
+        # self.actionShuffle_On_Off.setCheckable(True)
+        # self.actionLoop_On_Off.setCheckable(True)
+        # self.actionShuffle_On_Off.toggled.connect(self.btn_shuffle.setChecked)
+        # self.actionLoop_On_Off.toggled.connect(self.btn_loop.setChecked)
+        # self.actionShuffle_On_Off.toggled.connect(self.toggle_shuffle_slot)
+        # self.btn_shuffle.toggled.connect(self.toggle_shuffle_slot)
+        # self.actionLoop_On_Off.toggled.connect(self.toggle_loop_slot)
+        # self.btn_loop.toggled.connect(self.toggle_loop_slot)
+
+        self.player.stateChanged.connect(self.sync_play_button)
 
         # 트랙이 끝났을 때 자동으로 다음 곡 재생
         self.player.mediaStatusChanged.connect(self.handle_media_status)
@@ -294,12 +302,30 @@ class ExampleApp(QMainWindow, form_class):
         self.player.setPosition(pos)
 
     # 셔플 모드 토글
-    def toggle_shuffle_slot(self, checked: bool):
-        self.is_shuffle = checked
+    def toggle_shuffle_mode(self, checked: bool):
+        self.is_shuffle = not self.is_shuffle
+
+        self.actionShuffle_On_Off.blockSignals(True)
+        self.btn_shuffle.blockSignals(True)
+
+        self.actionShuffle_On_Off.setChecked(self.is_shuffle)
+        self.btn_shuffle.setChecked(self.is_shuffle)
+
+        self.actionShuffle_On_Off.blockSignals(False)
+        self.btn_shuffle.blockSignals(False)
 
     # 반복 모드 토글
-    def toggle_loop_slot(self, checked: bool):
-        self.is_loop = checked
+    def toggle_loop_mode(self, checked: bool):
+        self.is_loop = not self.is_loop
+
+        self.actionLoop_On_Off.blockSignals(True)
+        self.btn_loop.blockSignals(True)
+
+        self.actionLoop_On_Off.setChecked(self.is_loop)
+        self.btn_loop.setChecked(self.is_loop)
+
+        self.actionLoop_On_Off.blockSignals(False)
+        self.btn_loop.blockSignals(False)
 
     # 볼륨 조절
     def volume_changed(self, value: int):
