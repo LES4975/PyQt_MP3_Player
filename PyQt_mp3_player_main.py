@@ -25,7 +25,6 @@ class ExampleApp(QMainWindow, form_class):
         self.history = []
         self.model = QStringListModel()
         self.listView.setModel(self.model)
-        self.listView.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.player = QMediaPlayer()
         self.player.setVolume(50)   # 초기 볼륨
         self.setWindowTitle("MP3 Player")
