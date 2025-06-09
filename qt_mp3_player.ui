@@ -120,6 +120,9 @@
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </widget>
         </widget>
@@ -365,8 +368,8 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>40</width>
-                 <height>40</height>
+                 <width>35</width>
+                 <height>35</height>
                 </size>
                </property>
               </widget>
@@ -649,7 +652,7 @@
   </action>
   <action name="actionShuffle_On_Off">
    <property name="text">
-    <string>Suffle On/Off</string>
+    <string>Shuffle On/Off</string>
    </property>
   </action>
   <action name="actionLoop_On_Off">

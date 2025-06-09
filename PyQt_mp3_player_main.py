@@ -8,6 +8,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtMultimedia import *
 from PyQt5 import uic
 
+from qt_material import apply_stylesheet
+
 form_class = uic.loadUiType('./qt_mp3_player.ui')[0]
 
 class ExampleApp(QMainWindow, form_class):
@@ -30,6 +32,9 @@ class ExampleApp(QMainWindow, form_class):
         self.player.setVolume(50)   # 초기 볼륨
         self.setWindowTitle("MP3 Player")
 
+
+        apply_stylesheet(self, theme='dark_teal.xml')
+
         # File 메뉴 기능 연결
         self.actionOpen_File.triggered.connect(self.open_file_slot)
         self.actionOpen_Folder.triggered.connect(self.open_folder_slot)
@@ -38,13 +43,19 @@ class ExampleApp(QMainWindow, form_class):
         self.actionRemove_All.triggered.connect(self.remove_all_slot)
 
         # 재생 기능 연결
-        self.actionPlay.triggered.connect(self.playing_music_slot)
-        self.actionPause.triggered.connect(self.pause_music_slot)
+        self.actionPlay.triggered.connect(self.play_or_pause_slot)
+        self.actionPause.triggered.connect(self.play_or_pause_slot)
         self.actionPrevious_Track.triggered.connect(self.previous_track_slot)
         self.actionNext_Track.triggered.connect(self.next_track_slot)
+        self.actionShuffle_On_Off.setCheckable(True)
+        self.actionShuffle_On_Off.toggled.connect(self.toggle_shuffle_slot)
+        self.actionLoop_On_Off.setCheckable(True)
+        self.actionLoop_On_Off.toggled.connect(self.toggle_loop_slot)
 
-        self.btn_pnp.toggled.connect(self.play_or_pause_slot)
+        self.btn_pnp.clicked.connect(self.play_or_pause_slot)
+
         self.player.stateChanged.connect(self.sync_play_button)
+
         self.btn_previous.clicked.connect(self.previous_track_slot)
         self.btn_next.clicked.connect(self.next_track_slot)
 
@@ -54,11 +65,8 @@ class ExampleApp(QMainWindow, form_class):
         # 트랙이 끝났을 때 자동으로 다음 곡 재생
         self.player.mediaStatusChanged.connect(self.handle_media_status)
 
-        # 볼륨 조절 기능 연결
-        # 슬라이더 값 변경
+        # 볼륨
         volume = self.player.volume()
-        self.lbl_volume.setText(f"Volume: {volume}%")  # 볼륨을 표시
-
         # 슬라이더 조정 시 실제로 볼륨이 조절되도록
         self.volume_slider.valueChanged.connect(self.volume_changed)
 
@@ -79,7 +87,7 @@ class ExampleApp(QMainWindow, form_class):
         self.actionAbout.triggered.connect(self.about_slot)
 
         self.lbl_music_name.setText("Choose your music")
-        self.lbl_volume.setText("Volume: 50%")
+        self.lbl_volume.setText(f"Volume: {volume}%")  # 볼륨을 표시
 
     # File =============================
     # 파일 선택해서 열기
@@ -118,7 +126,7 @@ class ExampleApp(QMainWindow, form_class):
         self.current_index = 0
 
         print(path)
-        self.model.setStringList(QFileInfo(path).fileName()) # 모델에는 파일명만 추가
+        self.model.setStringList([QFileInfo(path).fileName()]) # 모델에는 파일명만 추가
 
         self.history.clear() # 이전 재생 기록 클리어
         self.load_track(0) # 첫 곡 로드 & 재생
@@ -183,19 +191,16 @@ class ExampleApp(QMainWindow, form_class):
         self.btn_pnp.blockSignals(False)
 
     # play or pause
-    def play_or_pause_slot(self, checked: bool):
-        if checked:
-            self.player.play()
-        else:
+    def play_or_pause_slot(self):
+        if not self.playlist: # 플레이리스트가 비어 있다면
+            QMessageBox.warning(self, 'No Tracks', '플레이리스트에 재생할 곡이 없습니다!')
+            self.sync_play_button(self.player.state()) # 버튼 되돌리기
+            return
+
+        if self.player.state() == QMediaPlayer.State.PlayingState:
             self.player.pause()
-
-    # 재생
-    def playing_music_slot(self):
-        self.player.play()
-
-    # 일시정지
-    def pause_music_slot(self):
-        self.player.pause()
+        else:
+            self.player.play()
 
     # 이전 트랙 재생 | 되돌아가기
     def previous_track_slot(self):
