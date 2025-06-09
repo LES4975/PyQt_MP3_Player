@@ -62,10 +62,10 @@
          <widget class="QFrame" name="frame">
           <property name="geometry">
            <rect>
-            <x>140</x>
-            <y>110</y>
-            <width>181</width>
-            <height>191</height>
+            <x>70</x>
+            <y>40</y>
+            <width>321</width>
+            <height>341</height>
            </rect>
           </property>
           <property name="frameShape">
@@ -74,37 +74,53 @@
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <widget class="QLabel" name="lbl_music_cover">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="pixmap">
-              <pixmap>imgs/music_icon.png</pixmap>
-             </property>
-             <property name="scaledContents">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="lbl_music_name">
-             <property name="text">
-              <string>Name</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <widget class="QLabel" name="lbl_music_cover">
+           <property name="geometry">
+            <rect>
+             <x>80</x>
+             <y>80</y>
+             <width>171</width>
+             <height>161</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>imgs/music_icon.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="lbl_music_name">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>280</y>
+             <width>321</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Name</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
          </widget>
         </widget>
        </item>
@@ -158,6 +174,9 @@
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
+               <property name="pageStep">
+                <number>0</number>
+               </property>
                <property name="tracking">
                 <bool>false</bool>
                </property>
@@ -197,7 +216,7 @@
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>-0:00</string>
+                <string>0:00</string>
                </property>
               </widget>
              </item>
@@ -222,6 +241,30 @@
              <property name="rightMargin">
               <number>30</number>
              </property>
+             <item>
+              <widget class="QPushButton" name="btn_shuffle">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>imgs/suffle_off.png</normaloff>
+                 <normalon>imgs/suffle_on.png</normalon>imgs/suffle_off.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>40</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QPushButton" name="btn_previous">
                <property name="sizePolicy">
@@ -304,6 +347,30 @@
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QPushButton" name="btn_loop">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>imgs/loop_off.png</normaloff>
+                 <normalon>imgs/loop_on.png</normalon>imgs/loop_off.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>40</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </item>
@@ -318,14 +385,14 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,5,1">
+         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,5">
           <property name="spacing">
            <number>10</number>
           </property>
           <item>
            <widget class="QLabel" name="lbl_volume">
             <property name="text">
-             <string>Volume: 50</string>
+             <string>Volume: 50%</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -338,32 +405,13 @@
              <number>100</number>
             </property>
             <property name="pageStep">
-             <number>100</number>
+             <number>0</number>
             </property>
             <property name="sliderPosition">
              <number>50</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDial" name="volume_dial">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximum">
-             <number>100</number>
-            </property>
-            <property name="pageStep">
-             <number>100</number>
-            </property>
-            <property name="sliderPosition">
-             <number>50</number>
             </property>
            </widget>
           </item>
@@ -424,6 +472,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="btn_remove_all">
+            <property name="text">
+             <string>Remove All</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -446,8 +501,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>281</width>
-            <height>570</height>
+            <width>289</width>
+            <height>588</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -485,15 +540,19 @@
      <x>0</x>
      <y>0</y>
      <width>835</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionOpen_Folder"/>
     <addaction name="actionOpen_File"/>
+    <addaction name="actionOpen_Folder"/>
+    <addaction name="separator"/>
+    <addaction name="actionAdd_File"/>
+    <addaction name="actionRemove"/>
+    <addaction name="actionRemove_All"/>
    </widget>
    <widget class="QMenu" name="menuPlay">
     <property name="title">
@@ -503,7 +562,9 @@
     <addaction name="actionPause"/>
     <addaction name="actionPrevious_Track"/>
     <addaction name="actionNext_Track"/>
-    <addaction name="actionVolume"/>
+    <addaction name="separator"/>
+    <addaction name="actionShuffle_On_Off"/>
+    <addaction name="actionLoop_On_Off"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -511,17 +572,8 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
-   <widget class="QMenu" name="menuPlaylist">
-    <property name="title">
-     <string>Playlist</string>
-    </property>
-    <addaction name="actionAdd_Music"/>
-    <addaction name="actionDelete_Music"/>
-    <addaction name="actionDelete_All"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuPlay"/>
-   <addaction name="menuPlaylist"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -578,6 +630,31 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionAdd_File">
+   <property name="text">
+    <string>Add File to Playlist</string>
+   </property>
+  </action>
+  <action name="actionRemove">
+   <property name="text">
+    <string>Remove Music from Playlist</string>
+   </property>
+  </action>
+  <action name="actionRemove_All">
+   <property name="text">
+    <string>Remove All Files from Playlist</string>
+   </property>
+  </action>
+  <action name="actionShuffle_On_Off">
+   <property name="text">
+    <string>Suffle On/Off</string>
+   </property>
+  </action>
+  <action name="actionLoop_On_Off">
+   <property name="text">
+    <string>Loop On/Off</string>
    </property>
   </action>
  </widget>
