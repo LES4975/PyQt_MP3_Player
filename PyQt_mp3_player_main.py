@@ -40,8 +40,8 @@ class ExampleApp(QMainWindow, form_class):
         self.actionRemove_All.triggered.connect(self.remove_all_slot)
 
         # 재생 기능 연결 ----------------------------------------
-        self.actionPlay.triggered.connect(self.player.play)
-        self.actionPause.triggered.connect(self.player.pause)
+        self.actionPlay.triggered.connect(self.playing_music_slot)
+        self.actionPause.triggered.connect(self.pause_music_slot)
         self.btn_pnp.clicked.connect(self.play_or_pause_slot)
 
         self.actionPrevious_Track.triggered.connect(self.previous_track_slot)
@@ -195,19 +195,32 @@ class ExampleApp(QMainWindow, form_class):
 
     # play or pause
     def play_or_pause_slot(self):
+        if self.btn_pnp.isChecked():
+            self.playing_music_slot()
+        else:
+            self.pause_music_slot()
+
+    def playing_music_slot(self):
         if not self.playlist: # 플레이리스트가 비어 있다면
-            QMessageBox.warning(self, 'No Tracks', '플레이리스트에 재생할 곡이 없습니다!')
+            QMessageBox.warning(self, 'No Tracks', '재생할 곡이 없습니다!')
             self.sync_play_button(self.player.state()) # 버튼 되돌리기
             return
+        self.player.play()
 
-        if self.player.state() == QMediaPlayer.State.PlayingState:
-            self.player.pause()
-        else:
-            self.player.play()
+    def pause_music_slot(self):
+        if not self.playlist: # 플레이리스트가 비어 있다면
+            self.sync_play_button(self.player.state()) # 버튼 되돌리기
+            return
+        self.player.pause()
 
     # 이전 트랙 재생 | 되돌아가기
     def previous_track_slot(self):
         if not self.playlist: # 첫 재생 상태일 경우
+            return
+
+        # 5초 이상 재생되었으면, 트랙 처음으로 리셋
+        if self.player.position() > 5000:
+            self.player.setPosition(0)
             return
 
         if self.history: # 재생 기록이 있으면 가장 마지막에 재생했던 곡으로 돌아간다
@@ -333,6 +346,7 @@ class ExampleApp(QMainWindow, form_class):
         print(idx)
         # 재생 중인 트랙이 없으면 아무 것도 하지 않음
         if idx < 0 or idx >= len(self.playlist):
+            QMessageBox.warning(self, 'No Tracks', '삭제할 음악을 선택하세요!')
             return
 
         name = QFileInfo(self.playlist[idx]).fileName()
@@ -389,7 +403,9 @@ class ExampleApp(QMainWindow, form_class):
     # 플레이리스트에서 음악 1개 제거하기
     def remove_item_slot(self):
         idx = self.listView.currentIndex().row()
+        print(idx)
         if idx < 0 or idx >= len(self.playlist):
+            QMessageBox.warning(self, 'No Tracks', '삭제할 음악을 선택하세요!')
             return
 
         name = QFileInfo(self.playlist[idx]).fileName()
@@ -406,6 +422,7 @@ class ExampleApp(QMainWindow, form_class):
     # 플레이리스트의 음악 모두 제거하기
     def remove_all_slot(self):
         if not self.playlist:
+            QMessageBox.warning(self, 'No Tracks', '플레이리스트가 비어 있습니다!')
             return
 
         reply = QMessageBox.question(
@@ -435,6 +452,8 @@ class ExampleApp(QMainWindow, form_class):
             return
         # 플레이리스트에 아이템이 남아 있을 때 (인덱스 보정 및 자동 재생)
         self.current_index = min(self.current_index, len(self.playlist) - 1)
+        if self.playlist and self.current_index == -1:
+            self.current_index = 0
         self.load_track(self.current_index)
 
         # 현재 트랙 이름을 타이틀에도 반영
